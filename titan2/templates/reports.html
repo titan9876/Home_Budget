@@ -1,0 +1,258 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+{% if len_act > 0 %}
+<!--Set up primary Containers-->
+<div class="container-fluid bg-gradient-secondary mt-2 mb-2" style="border: 1px solid black">
+  <div class="container-fluid bg-gradient-dark mt-3 pl-2 pr-2" style="border: 1px solid black">
+    <div class="row no-gutters mt-1 pl-1 pr-1 bg-gradient-light" style="border: 2px solid black;text-align: center">
+      <div class="col col-sm-auto">
+      </div>
+      <div class="col col-sm bg-gradient-dark mt-2 mb-2 pl-1 pr-1" style="width: 100%;border:2px solid black;">
+        <div class="col col-lg bg-gradient-secondary pl-1 pr-1 mt-1 mb-1" style="border:1px solid black;">
+          <div class="col col-lg bg-gradient-light mt-1 mb-1" style="border:1px solid black;">
+            <div class="col col-sm" style="width: 100%;">
+              <div class="col col-sm-auto bg-gradient-dark mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">Current Account:&nbsp;
+                  <span class="col-sm auto bg-gradient-success ml-2" style="border: 1px solid black">{{current_account_name}}</span>
+                </h5>
+              </div>
+              <div class="col col-sm-auto bg-gradient-dark mt-1 mr-2 ml-2 mb-2" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">Balance:&ensp;${{current_balance}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm-auto">
+      </div>
+    </div><!--End of Row-->
+
+<div class="clearfix">
+
+<!--Build the Expense Box-->
+
+<div class="col2 menu mt-1 bg-gradient-dark" style="width: 100% ;">
+  <ul class="pl-1">
+    <div class="card o-hidden text-center mt-1" style="width: 100%;border-style: solid; border-width: 2px;border-color: black;">
+      <!--Card Header-->
+      <div class="card-header bg-gradient-primary" style="color: white;height:27px;padding-top:1px; border-bottom: 1px solid black">
+        <h5>Expense History</h5>
+      </div>
+      <!--End of Card Header-->
+
+      <!-- Build Card Body
+                and
+           Form For Expenses-->
+      <form method="POST">
+        <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+
+          <div class="card rounded-0 pb-1 bg-gradient-dark scroll" style="max-height:400px;overflow-x: hidden;
+                    overflow-x: auto; border: 1px solid black">
+
+
+
+                <!--Deposits Overview-->
+
+                  <div class="row no-gutters ml-1 mr-1">
+                    <div class="col col-sm" style="width: 100%;">
+                      <!--div class="col col-sm-auto bg-gradient-dark" style="border:2px solid black;height:35px;">
+                        <h5 style="color:white;height:15px;margin-top:4px;">Expenses</h5>
+                      </div-->
+                    </div>
+                  </div>
+                  <div class="card bg-gradient-dark rounded-0 ml-1 mr-1" style="border: 1px solid black;height:100%">
+                    <div class="row no-gutters">
+                      <div class="col col-sm" style="width: 100%; border: 1px dotted yellow;">
+                        <!--div class="card bg-gradient-dark rounded-0" style="height:100%"-->
+                          <table class="table bg-light table-sm table-hover table-striped table-bordered" style="margin-bottom: 0px;">
+                          <thead>
+                            <tr style="color:black;height:20px; font-size:10pt;">
+
+                                <th scope="col"><u>Date</u></th>
+                                <th scope="col"><u>Amount</u></th>
+                                <th scope="col"><u>Payee</u></th>
+                                <th scope="col"><u>Category</u></th>
+                                <th scope="col"><u>Comment</u></th>
+                                <th scope="col">...</th>
+                                <th scope="col">...</th>
+
+
+
+                            <tr>
+                          </thead>
+                          <tbody>
+
+
+                            {% for expense in current_expenses %}
+                            <tr style="color:black;height:20px; font-size:12pt;">
+                              <td class="pt-2">{{expense.date}}</td>
+                              <td class="pt-2 text-right"><span style="color:red">${{'{:,.2f}'.format(expense.amount/100)}}</span></td>
+                              <td class="pt-2">{{expense.payee}}</td>
+                              <td class="pt-2">{{expense.category}}</td>
+                              <td class="pt-2">{{expense.comment}}</td>
+                              <td>
+                                <a class="btn pb-2 pt-1 btn-sm bg-gradient-success" href="{{ url_for('edit_expense',exp_id=expense.id) }}"
+                                style="background-color: green;color:white;border-style:solid;border-width: 1px;border-color:black;height: 30px; px;">Edit</a>
+                              </td>
+                              <td>
+                                <a  class="btn pb-3 btn-sm bg-gradient-danger" href="{{ url_for('delete_transaction',trans_type="exp",trans_id=expense.id) }}"
+                                style="background-color: red;color:white;border: 1px black solid;height:30px;">Delete</a>
+                              </td>
+                            </tr>
+                            {%endfor%}
+                          </tbody>
+
+                          </table>
+                        <!--/div-->
+                      </div>
+                    </div>
+
+
+
+                        </div>
+
+
+                </div>
+
+        <!--End of Card Body-->
+        <!--Begin Card Footer-->
+        <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+
+        </div>
+        <!--End Card Footer-->
+      <!--End of Expense Form-->
+      </form>
+    <!--End of Card-->
+    </div>
+  <!--End of Expense Section-->
+</ul>
+</div>
+<div class="column menu" style="width: 100% ;">
+  <ul class="pl-1">
+    <div class="card o-hidden text-center" style="width: 100%;border-style: solid; border-width: 2px;border-color: black;">
+      <!--Card Header-->
+      <div class="card-header bg-gradient-primary" style="color: white;height:27px;padding-top:1px; border-bottom: 1px solid black">
+        <h5>Deposit History</h5>
+      </div>
+      <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+      <div class="card rounded-0 pb-1 bg-gradient-dark scroll" style="max-height:400px;overflow-x: hidden;
+                overflow-x: auto;border: 1px solid black">
+        <div class="row no-gutters ml-1 mr-1">
+          <div class="col col-sm" style="width: 100%;">
+
+          </div>
+        </div>
+        <div class="card bg-gradient-dark rounded-0 ml-1 mr-1" style="border: 1px solid black;height:100%">
+          <div class="row no-gutters">
+            <div class="col col-sm" style="width: 100%; border: 1px dotted yellow;">
+              <div class="card bg-gradient-dark rounded-0" style="height:100%">
+                <table class="table bg-light table-sm table-hover table-striped table-bordered" style="margin-bottom: 0px;">
+                <thead>
+                  <tr style="color:black;height:20px; font-size:10pt;">
+
+                      <th scope="col"><u>Date</u></th>
+                      <th scope="col"><u>Amount</u></th>
+                      <th scope="col"><u>Source</u></th>
+                      <th scope="col">...</th>
+                      <th scope="col">...</th>
+
+
+
+                  <tr>
+                </thead>
+                <tbody>
+
+
+
+                  {% for deposit in current_deposits %}
+                  <tr style="color:black;height:20px; font-size:12pt;">
+                    <td class="pt-2">{{deposit.date}}</td>
+                    <td class="pt-2"><span style="color:green">${{'{:,.2f}'.format(deposit.amount/100)}}</span></td>
+                    <td class="pt-2">{{deposit.source}}</td>
+                    <td>
+                      <a class="btn pb-2 pt-1 btn-sm bg-gradient-success" href="{{ url_for('edit_deposit',dep_id=deposit.id) }}"
+                      style="color:white;border-style:solid;border-width: 1px;border-color:black;height: 30px;">Edit</a>
+                    </td>
+                    <td>
+                      <a  class="btn pb-3 btn-sm bg-gradient-danger pt-1" href="{{ url_for('delete_transaction',trans_type="dep",trans_id=deposit.id) }}"
+                      style="color:white;border: 1px black solid;height:30px;"><span>Delete</span></a>
+                    </td>
+                  </tr>
+                  {%endfor%}
+                </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!--End of Card Header-->
+
+      <!-- Build Card Body
+                and
+           Form For Expenses-->
+      <form method="POST">
+        <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+          <div class="card rounded-0 bg-gradient-light" style="border: 1px solid black;margin: 4px;max-height:50%;">
+            <div class="row no-gutters">
+
+            </div>
+          </div>
+        </div>
+        <!--End of Card Body-->
+        <!--Begin Card Footer-->
+        <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+
+        </div>
+        <!--End Card Footer-->
+      <!--End of Expense Form-->
+      </form>
+    <!--End of Card-->
+    </div>
+  <!--End of Expense Section-->
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- <div class="container-fluid">
+<br>
+  <table class="table bg-light table-sm table-hover table-striped table-bordered" style="margin-bottom: 0px;">
+  <thead>
+    <tr style="color:black;"> -->
+        <!--th scope="col">#</th-->
+        <!-- <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Payee</th>
+        <th scope="col">Category</th>
+        <th scope="col">Comment</th>
+        <th scope="col">...</th>
+
+
+    <tr>
+  </thead>
+  <tbody>
+    {%for x in range(40000000,40000009)%}
+    <tr> -->
+      <!--td scope="row">{{x}}</td-->
+      <!-- <td>01/21/20</td>
+      <td>$10.00</td>
+      <td>We have to make this really long</td>
+      <td>Some Category</td>
+      <td>We have to make a long Comment Here as well.</td>
+      <td class="btn btn-sm btn-danger navbar-nav">Edit</td>
+    </tr>
+    {%endfor%}
+  </tbody>
+
+  </table>
+</div> -->
+
+{%endif%}
+{% endblock content %}

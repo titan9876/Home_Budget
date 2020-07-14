@@ -1,0 +1,134 @@
+{% extends "skeleton.html" %}
+{% block content %}
+<br>
+<div class="container-fluid bg-gradient-secondary pr-2 pl-2" style="border: 2px solid black">
+  <div class="container-fluid bg-gradient-dark mt-2 mb-2" style="border: 2px solid black">
+<div class="card-deck mt-4">
+
+    <div class="card text-center ml-2" style="border: 2px solid black">
+      <div class="card-header bg-gradient-primary pt-2" style="border-bottom:2px solid black;height: 40px;color: white">
+        Overall Expenses
+      </div>
+      <div class="card-body pl-1 pr-1" style="border-left: 2px solid black;border-right: 2px solid black">
+
+        <canvas id="chart" width="250" height="250"></canvas>
+        <script src="{{ url_for('static',filename='Chart.min.js') }}"></script>
+        <script>
+          var pieData = [
+              {% for item, label, colors in set %}
+
+                {
+                  value: {{item/100}},
+                  label: "{{label}} $",
+                  color : "{{colors}}"
+                },
+
+                {% endfor %}
+          ];
+          var options = {
+            //Boolean - Whether we should show a stroke on each segment
+            // set to false to hide the space/line between segments
+          segmentShowStroke: false
+
+        };
+      // draw pie chart
+      new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData,options);
+
+      </script>
+
+  </div>
+      <div class="card-footer bg-gradient-primary text-muted" style="border:2px solid black">
+
+      </div>
+</div>
+
+
+
+    <div class="card text-center ml-2" style="border: 2px solid black">
+      <div class="card-header bg-gradient-primary pt-2" style="border-bottom:2px solid black;height: 40px;color: white">
+        Month-To-Date Expenses
+      </div>
+      <div class="card-body" style="border-left: 2px solid black;border-right: 2px solid black">
+        <canvas id="mtd_chart" width="250" height="250"></canvas>
+        <script src="{{ url_for('static',filename='Chart.min.js') }}"></script>
+        <script>
+          var pieData = [
+              {% for item, label, colors in mtd %}
+
+                {
+                  value: {{item/100}},
+                  label: "{{label}} $",
+                  color : "{{colors}}"
+                },
+
+                {% endfor %}
+          ];
+          var options = {
+          //Boolean - Whether we should show a stroke on each segment
+          // set to false to hide the space/line between segments
+          segmentShowStroke: false
+
+          };
+      // draw pie chart
+      new Chart(document.getElementById("mtd_chart").getContext("2d")).Pie(pieData,options);
+
+      </script>
+      </div>
+      <div class="card-footer bg-gradient-primary text-muted" style="border:2px solid black">
+      </div>
+    </div>
+
+    <div class="card text-center ml-2" style="border: 2px solid black">
+      <div class="card-header bg-gradient-primary pt-2" style="border-bottom:2px solid black;height: 40px;color: white">
+        Year-To-Date Expenses
+      </div>
+      <div class="card-body" style="border-left: 2px solid black;border-right: 2px solid black">
+        <canvas id="ytd_chart" width="250" height="250" chart-dataset-override="override"></canvas>
+        <script src="{{ url_for('static',filename='Chart.min.js') }}"></script>
+        <script>
+          var pieData = [
+              {% for item, label, colors in ytd %}
+
+                {
+                  value: {{item/100}},
+                  label: "{{label}} $",
+                  color : "{{colors}}",
+
+
+                },
+
+                {% endfor %}
+
+          ];
+
+          var options = {
+  //Boolean - Whether we should show a stroke on each segment
+  // set to false to hide the space/line between segments
+  segmentShowStroke: false
+
+};
+
+          // get bar chart canvas
+      //var mychart = document.getElementById("chart").getContext("2d");
+      //steps = 10
+      //max = 100000
+
+      // draw pie chart
+      new Chart(document.getElementById("ytd_chart").getContext("2d")).Pie(pieData,options);
+
+      </script>
+      </div>
+      <div class="card-footer bg-gradient-primary text-muted" style="border:2px solid black">
+
+      </div>
+    </div>
+
+
+</div>
+<br>
+</div>
+</div>
+
+<br>
+
+{% endblock content %}

@@ -1,0 +1,228 @@
+{% extends "skeleton.html" %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<br>
+<!--div class="clearfix"-->
+  <div class="container rounded bg-gradient-secondary pt-4 pb-4" style="border: 1px solid black;">
+<!--div class="column menu mt-2 ml-4" style=""-->
+
+ <div class="card o-hidden" style="border: solid 1px black;">
+  <!--div class="card-header mt-0 pb-0 bg-gradient-dark" style="border-bottom: 1px solid black;color: white;height:27px;padding-top:2px;">
+
+  </div-->
+  <form id="my_account_form" method="POST" enctype="multipart/form-data">
+    {{ my_form.hidden_tag() }}
+    <div class="card-body bg-gradient-dark" style="padding-top:9px; ">
+
+      <div class="row no-gutters">
+
+        <div class="col col-sm-auto rounded-top bg-gradient-secondary text-center" style="border: 2px solid black; ">
+          <div class="card-header mt-0 rounded-top pb-0 bg-gradient-primary" style="border-bottom:1px solid black;color: white;height:27px;padding-top:2px;">
+                        <h5>Profile Details</h5>
+          </div>
+          <!--container for spacing elements properly-->
+          <div class="container mt-3 mb-3">
+          <div class="container bg-gradient-light text-center" style="border: 1px solid black;padding-left:4px; margin-right: 10px;">
+            <div class="container mt-2 bg-gradient-secondary" style="margin-left: 10px;border: 1px solid black">
+              <div class="container mt-2 bg-gradient-dark mb-2" style="border: 2px solid black">
+                <div class="row no-gutters mb-1 mt-1" style="text-align: center;display:block;">
+                  <div class="col col-sm-auto bg-gradient-light" style="border:2px solid black;height:30px;">
+                    <h5 style="color:black; margin-top:2px;"><strong>{{current_user.username}}</strong></h5>
+                  </div>
+                </div>
+                <div class="row no-gutters mb-1" style="text-align: center;display:block;">
+                  <div class="col col-sm-auto bg-gradient-light" style="border:2px solid black;height:30px;">
+                    {% if email_len <= 25 %}
+                    <h6 class="text-center" style="color: black;margin-top:3px">{{current_user.email}}</h6>
+                    {% else %}
+                    <h7 style="font-size: 9pt;color: black;margin-bottom: 2px;">{{current_user.email}}</h7>
+                    {% endif %}
+          </div>
+        </div>
+          </div>
+          </div>
+          <div class="container" style="margin-left: 10px;">
+	         <!--div class="text-center"-->
+             <img class="rounded-circle account-img mb-3 mt-3 ml-2 mr-1" src="{{ image_file }}" style="border: 2px solid black">
+          </div>
+             <div class="container" style="margin-left: 10px;">
+
+                <span style="color: white;">{{ my_form.picture(class="rounded mb-2 ml-1 btn btn-sm bg-gradient-warning",
+                    style="border: 2px solid black ;color:white;width:220px;") }}</span>
+                    {% if my_form.picture.errors %}
+                      {% for error in my_form.picture.errors %}
+                    <div class="container-fluid text-center bg-gradient-danger mb-2 white" style="color:white;border: 1px solid black">
+                     {{ error }}
+                   </div>
+                      {% endfor %}
+                    {% endif %}
+
+             </div>
+           <!--/div-->
+         </div>
+       </div>
+
+      </div>
+      <!--Insert Column for Proper Element Spacing-->
+      <div class="col col-auto" style="width:25px">
+      </div>
+
+        <div class="col bg-gradient-secondary rounded-top text-center" style="border: 2px solid black; ">
+          <div class="card-header mt-0 rounded-top pb-0 bg-gradient-primary" style="border-bottom:1px solid black;color: white;height:27px;padding-top:2px;">
+                        <h5>Update Account Settings</h5>
+          </div>
+          <!--container for spacing elements properly-->
+          <div class="container mt-3 mb-3">
+          <div class="container bg-gradient-light mt-2 mb-2" style="border: 1px solid black">
+
+          <div class="media">
+	           <div class="media-body">
+
+
+                   <div class="container-fluid bg-gradient-dark pt-2 mt-2 pb-1" style="border: 2px solid black">
+
+                     <h5 style="color:white">Change Username</h5>
+
+                 {{ my_form.username(class="mb-2 bg-gradient-light text-center rounded-0 form-control form-control-lg",value=current_user.username,style="height: 30px; border: 2px solid black;") }}
+                 {% for error in my_form.username.errors %}
+                 <div class="container-fluid text-center bg-gradient-danger mb-2 white" style="color:white;border: 1px solid black">
+                   {{ error }}
+                </div>
+                 {% endfor %}
+                 </div>
+
+
+
+            <div class="container-fluid bg-gradient-dark pt-2 mt-2 pb-1" style="border: 2px solid black">
+
+                   <h5 style="color:white">Change Email</h5>
+	             {{ my_form.email(class="mb-2 bg-gradient-light text-center rounded-0 form-control form-control-lg",
+                    value=current_user.email,style="height: 30px;border: 2px solid black;") }}
+               {% for error in my_form.email.errors %}
+               <div class="container-fluid text-center bg-gradient-danger mb-2 white" style="color:white;border: 1px solid black">
+                {{ error }}
+              </div>
+               {% endfor %}
+            </div>
+            <div class="container-fluid bg-gradient-dark pt-2 mt-2 mb-2 pb-1" style="border: 2px solid black">
+
+                   <h5 style="color:white">Change Password</h5>
+
+                <div class="row">
+                <div class="col col-sm-auto mb-1">
+
+	             <em>{{my_form.password.label(class="ml-2",style="color:white;margin-top: 2px;margin-right:8px;")}}</em>
+
+             </div>
+              <div class="col">
+               {{ my_form.password(class="mb-2 bg-gradient-light text-center form-control rounded-0",style="height: 30px;border: 2px solid black;") }}
+
+             </div>
+             {% for error in my_form.password.errors %}
+             <div class="container-fluid text-center bg-gradient-danger mb-2 white" style="color:white;border: 1px solid black">
+                {{ error }}
+            </div>
+             {% endfor %}
+           </div>
+           <div class="row">
+             <div class="col col-sm-auto">
+               <em>{{my_form.confirm_password.label(style="color:white;margin-top: 1px;margin-right:8px;")}}</em>
+             </div>
+             <div class="col">
+
+               {{ my_form.confirm_password(class="media mb-2 bg-gradient-light text-center rounded-0 form-control",
+                style="max-width: 900px;height: 30px;border: 2px solid black;") }}
+
+            </div>
+            {% for error in my_form.confirm_password.errors %}
+            <div class="container-fluid text-center bg-gradient-danger mb-2 white" style="color:white;border: 1px solid black">
+             {{ error }}
+           </div>
+            {% endfor %}
+          </div>
+            </div>
+	           </div>
+          </div>
+
+        </div>
+      </div>
+        </div>
+      </div>
+      {{ my_form.submit(class="mt-4 btn rounded btn-lg bg-gradient-success",style="color:white;width: 40%;border: 2px solid black")}}
+    </div>
+          <!--div class="card-footer bg-gradient-primary" style="height:32px;padding-top:3px;">
+          </div-->
+       </form>
+      </div>
+     </div>
+
+
+
+  <!--div class="col2 content d-none d-lg-block mr-4 mt-2" style="width:35%">
+    <div class="card text-center" style=" border:solid 1px black;">
+      <div class="card-header mt-0 pb-0" style="color: #4c4c59;height:27px;padding-top:2px;">
+        <h5>Expense Summary</h5>
+      </div>
+      <form method="POST">
+        {{ my_form.hidden_tag() }}
+      <div class="card-body">
+
+        <div class="content-section">
+
+	             <fieldset class="form-group">
+                 <legend class="border-bottom mb-4">Update Account Info.</legend>
+	               <div class="form-group">
+	                  {{ my_form.username.label(class="form-control-label") }}
+	                  {% if my_form.username.errors %}
+	                   {{ my_form.username(class="form-control form-control-lg is-invalid") }}
+	                    <div class="invalid-feedback">
+	                     {% for error in my_form.username.errors %}
+	                       <span>{{ error }}</span>
+	                     {% endfor %}
+	                    </div>
+	                  {% else %}
+	                     {{ my_form.username(class="form-control form-control-lg") }}
+	                  {% endif %}
+	               </div>
+	               <div class="form-group">
+	                  {{ my_form.email.label(class="form-control-label") }}
+	                  {% if my_form.email.errors %}
+	                     {{ my_form.email(class="form-control form-control-lg is-invalid") }}
+	                     <div class="invalid-feedback">
+	                        {% for error in my_form.email.errors %}
+	                           <span>{{ error }}</span>
+	                        {% endfor %}
+	                     </div>
+	                  {% else %}
+	                    {{ my_form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+	               </div>
+	               <div class="form-group">
+	                  {{ my_form.picture.label() }}
+	                  {{ my_form.picture(class="form-control-file") }}
+                      {% if my_form.picture.errors %}
+	                	    {% for error in my_form.picture.errors %}
+	                  		   <span class="text-danger">{{ error }}</span></br>
+	                 	    {% endfor %}
+	                    {% endif %}
+	               </div>
+	             </fieldset>
+             </div>
+           </div>
+               <div class="card-footer">
+
+
+	                {{ my_form.submit(class="btn btn-outline-info") }}
+              </div>
+
+          </form>
+
+	  </div>
+  </div-->
+<p></p>
+<!--/div-->
+
+<!--/div-->
+
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "skeleton.html" %}
+{% block content %}
+<form method="POST">
+  {{ deposit_form.hidden_tag() }}
+  <div class="card text-center mt-2" style="border: 2px solid black;">
+    <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+      <div class="card bg-gradient-light rounded-0" style="margin: 4px;border: 1px solid black">
+        <div class="col col-sm-auto bg-gradient-dark mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+          <h5 style="color:white;height:15px;margin-top:4px;">Current Account:&nbsp;
+            <span class="col-sm auto bg-gradient-success ml-2" style="border: 1px solid black">{{current_account_name}}</span>
+          </h5>
+        </div>
+        <div class="col col-sm-auto bg-gradient-danger mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+          <h5 style="color:white;height:15px;margin-top:4px;">***You Are About to Modify an Existing Deposit***&nbsp;</h5>
+        </div>
+          <div class="card bg-gradient-dark rounded-0" style="margin: 6px;border: 2px solid black">
+            <div class="card-body text-center p-1">
+              <div class="row no-gutters mt-1">
+                <div class="col-sm-2 text-right">
+                  {{deposit_form.dep_date.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+                </div>
+                <div class="col-sm-4 text-right">
+                  {{deposit_form.dep_date(type="date", id="picker", class="form-control text-center bg-gradient-light",
+                        value=this_dep.date,style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                </div>
+                  {% for error in deposit_form.dep_date.errors %}
+                    <span>error</span>
+                  {% endfor %}
+                <div class="col-sm-2 text-right">
+                  {{deposit_form.dep_amount.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+                </div>
+                <div class="col-sm-4 text-right">
+                  {{deposit_form.dep_amount(class="form-control text-center bg-gradient-light",value=this_dep.amount/100,
+                        style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                </div>
+                  {% for error in deposit_form.dep_amount.errors %}
+                  <span>error</span>
+                  {% endfor %}
+              </div>
+                <div class="row no-gutters mt-2 mb-1">
+                  <div class="col-sm-2 text-right">
+                    {{deposit_form.dep_source.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+                  </div>
+                  <div class="col-sm">
+                    {{deposit_form.dep_source(class="form-control text-center bg-gradient-light",value=this_dep.source,
+                        style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                  </div>
+                    {% for error in deposit_form.dep_source.errors %}
+                      <span>error</span>
+                    {% endfor %}
+                </div>
+              </div>
+              <h6 style="color:white;">*** If You Submit Without Changes, Transaction Will Stay the Same ***</h6>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+            {{deposit_form.submit_deposit(class="btn mb-2 bg-gradient-dark btn-sm text-center pl-4 pr-4",
+                style="color: white;padding-top: 1px;border: 1px solid black; height:25px;")}}
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}

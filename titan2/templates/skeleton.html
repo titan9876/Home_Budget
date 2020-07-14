@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="{{ url_for('static',filename='Chart.min.js') }}"></script>
+    <script   src="http://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>$('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('New message to ' + recipient)
+      modal.find('.modal-body input').val(recipient)
+    })
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sb-admin-2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom.css') }}">
+
+    <style type="text/css">
+    .chart-container {
+      width: 80%;
+      height: 480px;
+      margin: 0 auto;
+    }
+
+    .log_but {
+      color: #ffffff
+    }
+    .menu {
+  width: 55%;
+}
+.content {
+width: 40%;
+}
+    .column {
+      float: left;
+    }
+    .col2{
+      float: right;
+    }
+    .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+    </style>
+  </head>
+  <body>
+    <div style="width: 100%;">
+      <header id="header">
+        <div class="container site-header navbar">
+          <nav class="navbar-expand-md navbar-dark bg-secondary fixed-top "
+              style="border: 1px solid black">
+
+            <div class="row no-gutters">
+              <div class="col col-sm-2">
+                <a class="navbar-brand" href="#">
+                  <img class="rounded circle ml-3"
+                  src="{{ url_for('static',filename="Spartan-Helmet.png") }}"width="45"
+                  height="45" alt="Logo", style="border: 1px solid black;">
+                </a>
+                <a class="navbar-brand" href="#"><strong style="margin-top: 10px;">TITAN<sup>2</sup></strong></a>
+              </div>
+
+
+            {% if current_user.is_authenticated %}
+              <div class="col col-sm-5 navbar-nav mr-auto container-fluid">
+
+                {%  if request.path == url_for('home') %}
+                  <a class="btn nav-link active bg-gradient-primary btn-sm  buttinz menu_item" href="{{ url_for('home') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Dashboard</a>
+                {% else %}
+                  <a class="btn bg-gradient-primary btn-sm  buttinz menu_item" href="{{ url_for('home') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Dashboard</a>
+                {% endif %}
+                  {%  if request.path == url_for('charts') %}}
+                  <a class="btn nav-link active bg-gradient-success btn-sm  buttinz menu_item" href="{{ url_for('charts') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Charts</a>
+                  {% else %}
+                  <a class="btn bg-gradient-success btn-sm  buttinz menu_item" href="{{ url_for('charts') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Charts</a>
+                  {% endif %}
+                  {%  if request.path == url_for('reports') %}
+                  <a class="btn nav-link active bg-gradient-warning btn-sm  buttinz menu_item" href="{{ url_for('reports') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">History</a>
+                  {% else %}
+                  <a class="btn bg-gradient-warning btn-sm  buttinz menu_item" href="{{ url_for('reports') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">History</a>
+                  {% endif %}
+                  {%  if request.path == url_for('alerts') %}
+                  <a class="btn nav-link active bg-gradient-danger btn-sm  buttinz menu_item" href="{{ url_for('alerts') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Alerts</a>
+                  {% else %}
+                  <a class="btn bg-gradient-danger btn-sm  buttinz menu_item" href="{{ url_for('alerts') }}"
+                    style="color:white;border-style:solid;border-width: 1px;border-color:black;">Alerts</a>
+                  {% endif %}
+
+              </div>
+
+              <div class="col col-sm-auto">
+
+                <em class="navbar-brand mr-3" style="float:right ;font-size: 12pt;margin-top:11px;">{{current_user.username}}</em>
+
+              </div>
+              <div class="col col-sm-auto mr-5">
+                <a href="{{ url_for('my_account') }}"><img class="rounded-circle mr-3" style="float:right;margin-top:5px;margin-bottom:4px;border-style:solid;border-width: 2px;border-color:black"
+                    src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" width="45" height="45" alt="Profile_Image">
+                </a>
+              </div>
+              <div class="col col-sm-auto">
+                <a class="btn bg-gradient-light btn-sm mr-3 rounded" href="{{ url_for('logout') }}"
+                  style="color: black;float:right;margin-top:10px;border-style:solid;border-width: 2px;border-color:black">Logout
+                </a>
+              </div>
+            {% endif %}
+            </div>
+          </nav>
+        </div>
+      </header>
+    </div>
+    <main role="main" class="container-fluid bg-gradient-light text-center">
+        {% if current_user.is_authenticated %}
+        {%  if request.path != url_for('my_account') %}
+          {% if len_act == 0 %}
+            {%  if request.path == url_for('home') %}
+              <a href="#" class="btn bg-gradient-light" style="color:black;">You have No Accounts Set up. Click "+" to Add Accounts---------></a>
+            {% else %}
+              <a href="#" class="btn bg-gradient-light" style="color:black;">You have No Accounts Set up. You Can Quickly Add Them From The Dashboard</a>
+
+
+            {% endif %}
+          {% else %}
+
+          <div class="container-fluid bg-gradient-secondary pt-1 pb-1 mt-5" style="border: 1px solid black">
+          <div class="container-fluid bg-gradient-dark pt-1 pb-1" style="border: 2px solid black">
+          <div class="row no-gutters">
+
+              {% for i in range(0,len_act) %}
+              <div class="col navbar-nav mr-auto container-fluid ml-1 mr-1">
+                  {%if all_accounts[i]==current_account_name%}
+                    <a href="{{ url_for('set_active_account',set_account=accounts[i].id)}}" class="btn nav-link active bg-gradient-success btn-sm"
+                        style="color:white;border: 2px solid black"><strong>{{all_accounts[i]}}:&nbsp;${{current_balance}}</strong></a>
+                  {% else %}
+                    <a href="{{ url_for('set_active_account',set_account=accounts[i].id)}}" class="btn bg-secondary btn-sm mt-1"
+                        style="color:white;border: 2px solid black"><strong>{{all_accounts[i]}}:&nbsp${{all_balances[i]}}</strong></a>
+                  {% endif %}
+              </div>
+              {% endfor %}
+          {% endif %}
+         {% endif %}
+        {% endif %}
+        {%  if request.path == url_for('home') %}
+          <!-- Button trigger modal -->
+          <button type="button" class="btn bg-gradient-success btn-sm mx-2" data-toggle="modal" data-target="#add_new_account"
+          style="width: 40px;height: 40px;color:white;border: 1px solid black;"><strong>+</strong></button>
+          <!-- Modal -->
+          <div class="modal fade" id="add_new_account" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content" style="border-style: solid; border-width: 2px; border-color: black; justify-content:center;">
+                <div class="modal-header bg-gradient-light">
+                  <h5 class="modal-title" id="add_new_accountLabel"><em style="color:black;">Add Account</em></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <form method="POST">
+                  {{ add_account_form.hidden_tag() }}
+                  <div class="modal-body bg-gradient-primary" style="border-top: 1px solid #4c4c59;border-bottom: 1px solid #4c4c59; justify-content:center;">
+                    <div class="container bg-light" style="border-style: solid; border-width: 1px; border-color: black; justify-content:center;">
+
+                       <br>
+                       <p class="text-center" style="color:#4c4c59;">{{add_account_form.account_name.label(style="color:black;")}}
+                         {{add_account_form.account_name(class="text-center",style="border: 1px solid black; width:250px;")}}</p>
+
+                        <div class="container bg-gradient-light" style="border: 1px solid black">
+
+
+
+                        <p style="margin-top: 10px; justify-content: left;color:black;">Optional Thresholds:</p>
+                        <hr>
+
+                       <p style="margin-top: 15px; justify-content: left;color:black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{add_account_form.safe_bal.label(style="color:black;")}}
+                         <span style="font-size: 14pt"><strong>$</strong></span>{{add_account_form.safe_bal(class="text-center", style="border: 1px solid black;margin-left:5px")}}</p>
+
+                         {% for error in add_account_form.safe_bal.errors %}
+                          <div class="container text-center" style="margin-top: 10px;">{{ error }}</div>
+                         {% endfor %}
+
+                       <p style="margin-top: 15px; justify-content: left;color:black;">{{add_account_form.crit_bal.label(style="color:black;")}}
+                         <span style="font-size: 14pt"><strong>$</strong></span>{{add_account_form.crit_bal(class="text-center", style="border: 1px solid black;margin-left: 5px;")}}</p>
+
+                         {% for error in add_account_form.crit_bal.errors %}
+                         <div class="container text-center" style="margin-top: 10px;">{{ error }}</div>
+                        {% endfor %}
+                      </div>
+                       <!--hr style="margin-bottom: 1px;color:black;"-->
+                       <p style="font-size: 8pt;color:black" class="text-center">
+                        <br>
+                        *** When balance falls below <em>Safe Limit</em>, a caution alert is generated. ***
+                        <br>
+                        *** When balance falls below <em>Critical Limit</em>, a warning alert is generated***
+                      </p>
+                    </div>
+                  </div>
+                  <div class="modal-footer bg-gradient-light" style="justify-content: center;">
+                    {{add_account_form.submit_add_account(class="btn btn-dark",style="border-style: solid; border-width: 2px; border-color: black;")}}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div><!--End of Modal-->
+        {% endif %} <!--End of Check for Main page-->
+
+    </div>
+  </div>
+</div>
+
+      {% block content %}
+      <!--pages using template are loaded in here-->
+      {% endblock %}
+<br>
+
+
+
+  </main>
+    <footer class="bg-secondary">
+      <p>Copyright&copy; - ItTiTaN - 20<sup><u>20</u></sup></p>
+    </footer>
+  </body>
+
+</html>

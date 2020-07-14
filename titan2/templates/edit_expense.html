@@ -1,0 +1,103 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+
+    <form method="POST">
+      {{ expense_form.hidden_tag() }}
+      <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+        <div class="card rounded-0 bg-gradient-light" style="border: 1px solid black;margin: 4px;max-height:50%;">
+          <div class="row no-gutters">
+            <div class="col col-sm" style="width: 100%;">
+              <div class="col col-sm-auto bg-gradient-dark mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">Current Account:&nbsp;
+                  <span class="col-sm auto bg-gradient-success ml-2" style="border: 1px solid black">{{current_account_name}}</span>
+                </h5>
+              </div>
+              <div class="col col-sm-auto bg-gradient-danger mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">***You Are About to Modify an Existing Transaction***&nbsp;
+                </h5>
+              </div>
+
+
+              <div class="col col-sm-auto bg-gradient-dark m-2 pl-1 pr-1" style="border:2px solid black;">
+                <div class="col col-lg bg-gradient-secondary pl-1 pr-1 mt-1 mb-1" style="border:1px solid black;">
+                  <div class="col col-lg bg-gradient-light mt-1 mb-1" style="border:1px solid black;">
+                    <div class="col col-sm-auto bg-gradient-dark mt-2 pr-1 pl-1 mb-2" style="border:2px solid black;">
+                      <div class="row no-gutters mt-2">
+                        <div class="col col-sm-2 text-right">
+                          {{expense_form.date.label(style="margin-top: 5px;margin-right: 5px;color:white;height:15px;")}}
+                        </div>
+                        <div class="col col-sm-4 pr-1 text-right">
+                          {{expense_form.date(type="date", id="picker", value=this_exp.date,class="form-control text-center bg-gradient-light",
+                              style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                        </div>
+                        {% for error in expense_form.date.errors %}
+                        {{ error }}
+                        {% endfor %}
+                        <div class="col col-sm-2 text-right">
+                          {{expense_form.amount.label(style="color:white;height:15px;margin-top:5px;margin-right: 5px;")}}
+                        </div>
+                        <div class="col col-sm-4 text-right" id="exp_amt">
+                          {{expense_form.amount(class="form-control text-center bg-gradient-light",value=this_exp.amount/100,
+                              style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                        </div>
+                        {% for error in expense_form.amount.errors %}
+                        {{ error }}
+                        {% endfor %}
+                      </div>
+                      <div class="row no-gutters mt-2">
+                        <div class="col col-sm-2 text-right">
+                          {{expense_form.payee.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+                        </div>
+                        <div class="col col-sm-4 pr-1 text-right">
+                          {{expense_form.payee(class=" form-control text-center bg-gradient-light",value=this_exp.payee,
+                              style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black ;")}}
+                        </div>
+                        {% for error in expense_form.payee.errors %}
+                        {{ error }}
+                        {% endfor %}
+                        <div class="col col-sm-2 text-right">
+                          {{expense_form.category.label(style="color:white;height:15px;margin-top: 5px;margin-right: 5px;")}}
+                        </div>
+                        <div class="col col-sm-4 text-right">
+                          {{expense_form.category(class="form-control text-center bg-gradient-light",value=this_exp.category,
+                              style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black ;")}}
+                        </div>
+                        {% for error in expense_form.category.errors %}
+                        {{ error }}
+                        {% endfor %}
+                      </div>
+                      <div class="row no-gutters mt-2 mb-2 text-right">
+                        <div class="col-sm-2">
+                          {{expense_form.comment.label(style="color:white;height:15px;margin-top: 5px;margin-right: 5px;")}}
+                        </div>
+                        <div class="col-sm text-right">
+                          {{expense_form.comment(class="form-control text-center bg-gradient-light",value=this_exp.comment,
+                              style="color: black;font-size: 12pt;border: 2px solid black ;")}}
+                        </div>
+                        {% for error in expense_form.comment.errors %}
+                        {{ error }}
+                        {% endfor %}
+
+                      </div>
+                        <h6 style="color:white;">*** If You Submit Without Changes, Transaction Will Stay the Same ***</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End of Card Body-->
+      <!--Begin Card Footer-->
+      <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+        {{expense_form.submit_expense(class="btn mb-2 bg-gradient-dark btn-sm text-center pl-4 pr-4",
+            style="color: white;padding-top: 1px;border: 1px solid black; height:25px;")}}
+      </div>
+      <!--End Card Footer-->
+    <!--End of Expense Form-->
+    </form>
+
+
+{% endblock content %}

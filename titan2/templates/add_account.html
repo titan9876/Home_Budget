@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script   src="http://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sb-admin-2.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom.css') }}">
+  <style type="text/css">
+  .menu {
+width: 55%;
+}
+.content {
+width: 40%;
+}
+  .column {
+    float: left;
+  }
+  .col2{
+    float: right;
+  }
+  .clearfix::after {
+content: "";
+clear: both;
+display: table;
+}
+  </style>
+</head>
+  <body>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add_new_accountLabel"><em style="color:#4c4c59;">Add Account</em></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-gradient-primary">
+        <div class="container bg-light" style="border-style: solid; border-width: 1px; border-color: #4c4c59; justify-content:center;">
+        <form method="POST">
+          <br>
+
+
+          <p class="text-center" style="color:#4c4c59;">{{add_account_form.account_name.label}}{{add_account_form.account_name(style="margin-left: 10px;width:250px;")}}</p>
+          <p style="margin-top: 30px; justify-content: left;color:#4c4c59;">Optional Thresholds:</p>
+          {{add_account_form.safe_bal.label(style="color:#4c4c59;")}}{{add_account_form.safe_bal(class="text-center", style="margin-left:10px;margin-right:10px;width:80px;")}}
+          {{add_account_form.crit_bal.label(style="color:#4c4c59;")}}{{add_account_form.crit_bal(class="text-center", style="margin-left: 10px;width:80px;")}}
+          <hr style="margin-bottom: 1px;">
+          <p style="font-size: 8pt;color:#4c4c59" class="text-center">
+            <br>
+            *** When balance falls below <em>Safe Limit</em>, a caution alert is generated. ***
+            <br>
+            *** When balance falls below <em>Critical Limit</em>, a warning alert is generated***
+          </p>
+
+      </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        {{add_account_form.submit_add_account(class="btn btn-dark",style="border-style: solid; border-width: 1px; border-color: black;")}}
+      </div>
+    </form>
+    </div>
+
+  </body>
+  {% block this %}{% endblock %}
+</html>

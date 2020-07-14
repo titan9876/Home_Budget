@@ -1,0 +1,47 @@
+footer{
+  text-align:center;
+  color: white;
+}
+
+button.buttinz {
+  margin-right:1rem;
+  width: 11rem !important;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+}
+
+.nav-space {
+  margin-left:30px;
+  margin-right:30px;
+}
+
+.topright {
+  position:absolute;
+  top: auto;
+  right: 16px;
+  left: 16px;
+
+}
+
+.navtext{
+  color:#F8F8FF;
+}
+
+body {
+  background: #fafafa;
+  color: #333333
+  margin-top: 5rem;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.content-section {
+  background: #0f0f0f
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}

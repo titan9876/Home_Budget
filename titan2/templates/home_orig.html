@@ -1,0 +1,129 @@
+{% extends "skeleton.html" %}
+{% block content %}
+<!--Do NOT Display remaining fields if User has No accounts -->
+{% if not current_user.is_authenticated %}
+{% if len_act > 0 %}
+<div class="container-fluid">
+
+  <br>
+
+  <!--div class="card-deck">
+    {% for i in range(0,len_act) %}
+      <div class="card text-center" style="color:#4c4c59; border-style: solid; border-width: 1px; border-color: #4c4c59;">
+      {%if current_account==accounts[i]%}
+        <a href="#" class="btn btn-success btn-sm" style="border-width: 1px;border-color: black;">{{accounts[i]}}:&nbsp;${{balance[i]}}</a>
+
+      {%else%}
+        <a href="#" class="btn btn-dark btn-sm">{{accounts[i]}}:&nbsp;${{balance[i]}}</a>
+
+      {%endif%}
+      </div>
+
+    {% endfor %}
+      <a href="#" class="btn btn-success btn-sm mx-2">+</a>
+  </div>
+  <br-->
+  <!--a class="btn btn-secondary nav-link mx-auto" href="#" style="color:white;max-width: 1200px;border-style: solid; border-width: 1px; border-color: #404050;">{{accounts[0]}}</a-->
+  <div class="clearfix">
+    <div class="column menu">
+        <ul>
+          <!--li-->
+            <div class="card text-center" style="border-style: solid; border-width: 1px;border-color: black;">
+              <div class="card-header mt-0 pb-0" style="color: #4c4c59;height:27px;padding-top:2px;">
+                <h5>Submit Expenses</h5>
+              </div>
+              <form id="expense_form" method="POST">
+              <div class="card-body" style="padding-top:9px;">
+                <h6 class="card-title">Current Account: <strong><em style="color:#4c4c59;"></em></strong></h6>
+                <h6 class="card-title">Balance: <strong><em style="color:#4c4c59;"></em></strong></h6>
+
+
+
+
+              </div>
+              <div class="card-footer" style="height:32px;padding-top:3px;">
+                {{expense_form.submit_expense(class="btn btn-dark btn-sm text-center",
+                    style="padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050; height:25px;")}}
+              </div>
+              </form>
+            </div>
+          <!--/li-->
+          <br>
+          <!--li-->
+          <form method="POST">
+            <div class="card text-center" style="border-style: solid; border-width: 1px;border-color: black;">
+              <div class="card-header mt-0 pb-0" style="color: #4c4c59;height:27px;padding-top:2px;">
+                <h5>Enter Deposits</h5>
+              </div>
+              <div class="card-body text-center" style="margin-top:6px;">
+                {{deposit_form.dep_date.label(style="color:black;")}}{{deposit_form.dep_date(class="text-center",
+                          style="width:100px;margin-left:5px;padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050;")}}
+                {{deposit_form.dep_amount.label(style="color:black;margin-left:12px;")}}{{deposit_form.dep_amount(class="text-center",
+                          style="width:100px;margin-left:5px;padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050;")}}
+                {{deposit_form.dep_source.label(style="color:black;margin-left:12px;")}}{{deposit_form.dep_source(class="text-center",
+                          style="width:250px;margin-left:5px;padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050;")}}
+
+              </div>
+              <div class="card-footer" style="height:32px;padding-top:3px;">
+
+                {{deposit_form.submit_deposit(class="btn btn-dark btn-sm text-center",tabindex="0",
+                    style="padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050; height:25px;")}}
+
+              </div>
+            </div>
+          </form>
+          <!--/li-->
+          <br>
+          <!--li-->
+            <div class="card text-center" style="border-style: solid; border-width: 1px;border-color: black;">
+              <div class="card-header mt-0 pb-0" style="color: #4c4c59;height:27px;padding-top:2px;">
+                <h5>Transfer Funds</h5>
+              </div>
+              <div class="card-body" style="padding-top:9px">
+                {% if len_act < 2 %}
+                <h5 class="card-title">You Must Have More Than One Account to Transfer Between</h5>
+                {% else %}
+                <p class="card-text">This is still a work in progress.</p>
+                {% endif %}
+              </div>
+
+              <div class="card-footer" style="height:32px;padding-top:3px;">
+                <a href="#" class="btn btn-dark btn-sm" style="padding-top: 1px;border-style: solid; border-width: 1px; border-color: #404050; height:25px;">Submit</a>
+              </div>
+            </div>
+          <!--/li-->
+        </ul>
+    </div>
+
+    <div class="col2 content mr-4">
+      <div class="card text-center" style="height: 550px; border-style: solid; border-width: 1px;border-color: black;">
+      <div class="card-header mt-0 pb-0" style="color: #4c4c59;height:27px;padding-top:2px;">
+        <h5>Expense Summary</h5>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+        <div class="card-footer">
+          <a href="{{ url_for('charts') }}" class="btn btn-dark btn-sm" style="border-style: solid; border-width: 1px; border-color: #404050;">View Charts</a>
+        </div>
+      </div>
+    </div>
+
+</div>
+      <br>
+</div>
+{% else %}
+<br>
+
+
+{% endif %}
+{% else %}
+<br>
+<div class="container bg-light">
+  <h2>You Must be logged in to View Content.</h2>
+</div>
+<br>
+{% endif %}
+
+{% endblock content %}

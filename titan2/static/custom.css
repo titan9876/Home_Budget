@@ -1,0 +1,47 @@
+
+    .main_body{
+      background: url("../static/blue.jpg")
+      background-repeat:no-repeat;
+    }
+    body{
+      background: url("../static/blue.jpg")
+      background-repeat:no-repeat;
+    }
+    footer {
+      padding-top: 8px;
+      height: 40px;
+      text-align: center;
+      color: white;
+      top: 50%;
+    }
+    .topright {
+      position:absolute;
+      top: auto;
+
+      right: 16px;
+      left: 16px;
+    }
+    #header{
+      margin-bottom: 37px;
+    }
+    .menu_item{
+      width:140px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #4c4c59;
+    }
+    .log_button{
+      border-style: solid;
+      border-width: 1px;
+      border-color: #4c4c59;
+    }
+    .editbutton{
+      border-style: solid;
+      border-width: 1px;
+      border-color: #4c4c59;
+    }
+    .cards{
+      border-style: solid;
+      border-width: 1px;
+      border-color: #4c4c59;
+    }

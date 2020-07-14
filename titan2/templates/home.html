@@ -1,0 +1,331 @@
+{% extends "skeleton.html" %}
+{% block content %}
+<!--Do NOT Display remaining fields if User has No accounts -->
+{% if current_user.is_authenticated %}
+
+{% if len_act > 0 %}
+<!--Set up primary Containers-->
+<div class="container-fluid bg-gradient-secondary mt-2" style="border: 1px solid black">
+<div class="container-fluid bg-gradient-dark mt-3" style="border: 1px solid black">
+<div class="clearfix">
+
+<!--Build the Expense Box-->
+<div class="column menu" style="width: 60%">
+  <ul>
+    <div class="card o-hidden text-center mt-2" style="border-style: solid; border-width: 2px;border-color: black;">
+      <!--Card Header-->
+      <div class="card-header bg-gradient-primary" style="color: white;height:27px;padding-top:1px; border-bottom: 1px solid black">
+        <h5>Submit Expenses</h5>
+      </div>
+      <!--End of Card Header-->
+
+      <!-- Build Card Body
+                and
+           Form For Expenses-->
+      <form method="POST">
+        {{ expense_form.hidden_tag() }}
+        <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+          <div class="card rounded-0 bg-gradient-light" style="border: 1px solid black;margin: 4px;max-height:50%;">
+            <div class="row no-gutters">
+              <div class="col col-sm" style="width: 100%;">
+                <div class="col col-sm-auto bg-gradient-dark mt-2 mr-2 ml-2" style="border:2px solid black;height:35px;">
+                  <h5 style="color:white;height:15px;margin-top:4px;">Current Account:&nbsp;
+                    <span class="col-sm auto bg-gradient-success ml-2" style="border: 1px solid black">{{current_account_name}}</span>
+                  </h5>
+                </div>
+                <div class="col col-sm-auto bg-gradient-dark mt-1 mr-2 ml-2 mb-2" style="border:2px solid black;height:35px;">
+                  <h5 style="color:white;height:15px;margin-top:4px;">Balance:&ensp;${{current_balance}} of Total:&ensp;${{tot_bal}}</h5>
+                </div>
+                <div class="col col-sm-auto bg-gradient-dark m-2 pl-1 pr-1" style="border:2px solid black;">
+                  <div class="col col-lg bg-gradient-secondary pl-1 pr-1 mt-1 mb-1" style="border:1px solid black;">
+                    <div class="col col-lg bg-gradient-light mt-1 mb-1" style="border:1px solid black;">
+                      <div class="col col-sm-auto bg-gradient-dark mt-2 pr-1 pl-1 mb-2" style="border:2px solid black;">
+                        <div class="row no-gutters mt-2">
+                          <div class="col col-sm-2 text-right">
+                            {{expense_form.date.label(style="margin-top: 5px;margin-right: 5px;color:white;height:15px;")}}
+                          </div>
+                          <div class="col col-sm-4 pr-1 text-right">
+                            {{expense_form.date(type="date", id="picker", class="form-control text-center bg-gradient-light",
+                                style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                          </div>
+                          <div class="col col-sm-2 text-right">
+                            {{expense_form.amount.label(style="color:white;height:15px;margin-top:5px;margin-right: 5px;")}}
+                          </div>
+                          <div class="col col-sm-4 text-right">
+                            {{expense_form.amount(class="form-control text-center bg-gradient-light",
+                                style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+                          </div>
+                          {% for error in expense_form.amount.errors %}
+                          {{ error }}
+                          {% endfor %}
+                        </div>
+                        <div class="row no-gutters mt-2">
+                          <div class="col col-sm-2 text-right">
+                            {{expense_form.payee.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+                          </div>
+                          <div class="col col-sm-4 pr-1 text-right">
+                            {{expense_form.payee(class=" form-control text-center bg-gradient-light",
+                                style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black ;")}}
+                          </div>
+                          <div class="col col-sm-2 text-right">
+                            {{expense_form.category.label(style="color:white;height:15px;margin-top: 5px;margin-right: 5px;")}}
+                          </div>
+                          <div class="col col-sm-4 text-right">
+                            {{expense_form.category(class="form-control text-center bg-gradient-light",
+                                style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black ;")}}
+                          </div>
+                        </div>
+                        <div class="row no-gutters mt-2 mb-2 text-right">
+                          <div class="col-sm-2">
+                            {{expense_form.comment.label(style="color:white;height:15px;margin-top: 5px;margin-right: 5px;")}}
+                          </div>
+                          <div class="col-sm text-right">
+                            {{expense_form.comment(class="form-control text-center bg-gradient-light",
+                                style="color: black;font-size: 12pt;border: 2px solid black ;")}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End of Card Body-->
+        <!--Begin Card Footer-->
+        <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+          {{expense_form.submit_expense(class="btn mb-2 bg-gradient-dark btn-sm text-center pl-4 pr-4",
+              style="color: white;padding-top: 1px;border: 1px solid black; height:25px;")}}
+        </div>
+        <!--End Card Footer-->
+      <!--End of Expense Form-->
+      </form>
+    <!--End of Card-->
+    </div>
+  <!--End of Expense Section-->
+
+  <!--Begin Deposit Section-->
+  <form method="POST">
+  {{ deposit_form.hidden_tag() }}
+   <div class="card text-center mt-2" style="border: 2px solid black;">
+    <!--Card Header-->
+    <div class="card-header mt-0 pb-0 bg-gradient-primary" style="color: white;height:27px;padding-top:1px; border-bottom: 1px solid black">
+      <h5>Enter Deposits</h5>
+    </div>
+    <!--End Card Header-->
+    <!--Begin Card Body-->
+    <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+      <div class="card bg-gradient-light rounded-0" style="margin: 4px;border: 1px solid black">
+        <div class="card bg-gradient-dark rounded-0" style="margin: 6px;border: 2px solid black">
+          <div class="card-body text-center p-1">
+            <div class="row no-gutters mt-1">
+              <div class="col-sm-2 text-right">
+              {{deposit_form.dep_date.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+              </div>
+              <div class="col-sm-4 text-right">
+                {{deposit_form.dep_date(type="date", id="picker", class="form-control text-center bg-gradient-light",
+                    style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+              </div>
+              <div class="col-sm-2 text-right">
+                {{deposit_form.dep_amount.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+              </div>
+              <div class="col-sm-4 text-right">
+                {{deposit_form.dep_amount(class="form-control text-center bg-gradient-light",
+                    style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+              </div>
+            </div>
+            <div class="row no-gutters mt-2 mb-1">
+              <div class="col-sm-2 text-right">
+                {{deposit_form.dep_source.label(style="margin-top:5px;margin-right: 5px;color:white;height:15px;")}}
+              </div>
+              <div class="col-sm">
+                {{deposit_form.dep_source(class="form-control text-center bg-gradient-light",
+                    style="color: black;font-size: 12pt;padding-top:4px;border: 2px solid black;")}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End Card Body-->
+    <!--Begin Card Footer-->
+    <div class="card-footer bg-gradient-secondary pt-1" style="height:35px;border-top: 1px solid black; border: 1px solid black">
+        {{deposit_form.submit_deposit(class="btn mb-2 bg-gradient-dark btn-sm text-center pl-4 pr-4",
+            style="color: white;padding-top: 1px;border: 1px solid black; height:25px;")}}
+    </div>
+    <!--End Card Footer-->
+  </div>
+  <!--End of Card-->
+  </form>
+  <!--End of Deposit Section-->
+
+</div>
+<!--End of Left Column-->
+
+<!--Begin Right Column Section-->
+<div class="col2 content d-none d-lg-block mr-4 mt-2" style="width:35%">
+  <div class="card text-center" style="border-style: solid; border-width: 2px;border-color: black;">
+    <!--Card Header-->
+    <div class="card-header mt-0 pb-0 bg-gradient-primary" style="color: white;height:27px;padding-top:1px; border-bottom: 1px solid black">
+      <h5>Expense Summary</h5>
+    </div>
+    <!--End Card Header-->
+    <!--Card Body-->
+    <div class="card bg-gradient-secondary rounded-0" style="height: 100%;border: 1px solid black">
+      <div class="card bg-gradient-light rounded-0" style="margin: 4px;border: 1px solid black;">
+        {% if current_user.view == 1 %}
+        <!--Expenses Overview-->
+        <div class="card rounded-0 pb-1 bg-gradient-secondary" style="margin: 4px;border: 1px solid black">
+          <div class="row no-gutters mt-1 ml-1 mr-1">
+            <div class="col col-sm" style="width: 100%;">
+              <div class="col col-sm-auto bg-gradient-dark" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">Expenses</h5>
+              </div>
+            </div>
+          </div>
+          <div class="card bg-gradient-dark rounded-0 ml-1 mr-1" style="border: 1px solid black;height:100%">
+            <div class="row no-gutters" >
+              <div class="col col-sm" style="width: 100%;">
+                <div class="card bg-gradient-dark rounded-0" style="height:100%">
+                  <table class="table bg-light table-sm table-hover table-striped table-bordered" style="margin-bottom: 0px;">
+                    <thead style="height:55px;">
+                      <tr style="color:black;height:20px; font-size:10pt;">
+                        <th scope="col" style="width:140px;"><u>Date</u></th>
+                        <th scope="col" style="width:90px;"><u>Amount</u></th>
+                        <th scope="col"><u>Payee</u></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for expense in current_expenses[0:6]%}
+                      <tr style="font-size: 10pt; color:black;">
+                        <td>{{ expense.date }}</td>
+                        <td class="text-right"><span style="color:red">${{'{:,.2f}'.format(expense.amount/100)}}</span></td>
+                        <td>{{expense.payee}}</td>
+                      </tr>
+                      {%endfor%}
+                    </tbody-->
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Deposit Overview-->
+        <div class="card rounded-0 pb-1 bg-gradient-secondary" style="margin: 4px;border: 1px solid black">
+          <div class="row no-gutters mt-1 ml-1 mr-1">
+            <div class="col col-sm" style="width: 100%;">
+              <div class="col col-sm-auto bg-gradient-dark" style="border:2px solid black;height:35px;">
+                <h5 style="color:white;height:15px;margin-top:4px;">Deposits</h5>
+              </div>
+            </div>
+          </div>
+          <div class="card bg-gradient-dark rounded-0 ml-1 mr-1" style="border: 1px solid black;height:100%">
+            <div class="row no-gutters" >
+              <div class="col col-sm" style="width: 100%;">
+                <div class="card bg-gradient-dark rounded-0" style="height:100%">
+                  <table class="table bg-light table-sm table-hover table-striped table-bordered" style="margin-bottom: 0px;">
+                    <thead style="height:55px;">
+                      <tr style="color:black;height:20px; font-size:10pt;">
+                        <th scope="col" style="width:140px;"><u>Date</u></th>
+                        <th scope="col" style="width:90px;"><u>Amount</u></th>
+                        <th scope="col"><u>Source</u></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for deposit in current_deposits[0:3]%}
+                      <tr style="font-size: 10pt; color:black;">
+                        <td>{{deposit.date}}</td>
+                        <td class="text-right"><span style="color:green">${{'{:,.2f}'.format(deposit.amount/100)}}</span></td>
+                        <td>{{deposit.source}}</td>
+                      </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End of Deposit Section-->
+        {% endif %} <!--View 1-->
+
+        {% if current_user.view == 2 %}
+          <!--div class="container m-2 text-center" style="max-width: 95% ;border: 1px solid blue"-->
+          <canvas id="chart" class="m-2" width="375" height="375"></canvas>
+          <script src="{{ url_for('static',filename='Chart.min.js') }}"></script>
+          <script>
+            var pieData = [
+                {% for item, label, colors in set %}
+
+                  {
+                    value: {{item/100}},
+                    label: "{{label}} $",
+                    color : "{{colors}}"
+                  },
+
+                  {% endfor %}
+            ];
+            var options = {
+              //Boolean - Whether we should show a stroke on each segment
+              // set to false to hide the space/line between segments
+            segmentShowStroke: false
+
+          };
+        // draw pie chart
+        new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData,options);
+
+        </script>
+      <!--/div-->
+        {% endif %}
+      </div>
+    </div>
+    <!--End of Card Body-->
+    <!--Card Footer-->
+    <div class="card-footer bg-gradient-secondary" style="border-top: 2px solid black;border: 1px">
+      <div class="container-fluid bg-gradient-light pl-1 pr-1 pt-2 pb-2" style="border: 1px solid black;">
+        <div class="container-fluid pr-1 pl-1 pt-2 pb-2 bg-gradient-dark" style="border: 2px solid black; margin-left: 0px">
+            <div class="col col-sm-auto navbar-nav mr-auto container-fluid pl-1 pr-1">
+              <div class="row no-gutters">
+              <div class="col navbar-nav mr-auto container-fluid ml-1 mr-1">
+                {% if current_user.view == 1 %}
+                  <a href="{{ url_for('set_view',view=1)}}" class="pl-2 pr-2 btn nav-link active bg-gradient-success btn-sm" style="color:white;border: 2px solid black"><strong>Transactions</strong></a>
+                {% else %}
+                  <a href="{{ url_for('set_view',view=1)}}" class="mt-1 btn bg-gradient-secondary btn-sm" style="color:white;border: 2px solid black"><strong>Transactions</strong></a>
+                {% endif %}
+              </div>
+              <div class="col navbar-nav mr-auto container-fluid">
+                {% if current_user.view == 2 %}
+                <a href="{{ url_for('set_view',view=2)}}" class="btn nav-link active bg-gradient-success btn-sm" style="color:white;border: 2px solid black"><strong>Pie Chart</strong></a>
+                {% else %}
+                <a href="{{ url_for('set_view',view=2)}}" class="mt-1 btn bg-gradient-secondary btn-sm" style="color:white;border: 2px solid black"><strong>Pie Chart</strong></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+    <!--End of Card Footer-->
+  </div>
+</div>
+<!--End-->
+
+</div>
+</div>
+</div>
+{% else %}
+<br>
+
+
+{% endif %}
+{% else %}
+<br>
+<div class="container bg-light">
+  <h2>You Must be logged in to View Content.</h2>
+</div>
+<br>
+{% endif %}
+
+{% endblock content %}
